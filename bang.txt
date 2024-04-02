@@ -1,0 +1,127 @@
+Table customers {
+  customer_id integer [primary key]
+  CCCD_Passport varchar
+  first_name varchar
+  last_name varchar
+  birthday date 
+  gender varchar
+  email varchar
+  phone varchar
+  address varchar 
+}
+
+
+Table rooms {
+  room_id varchar [primary key]
+  room_type varchar
+  facilities varchar
+  price integer
+  availability varchar
+}
+Table bookings {
+    booking_id integer [primary key]
+    customer_id integer 
+    room_id varchar unique
+    number_of_adult integer
+    number_of_child integer
+    status varchar
+    check_in_date date
+    check_out_date date
+    total_price integer
+    reservation_status varchar
+}
+
+Table services {
+  service_id integer [primary key]
+  service_name varchar
+  price integer
+  description text
+}  
+
+Table payments {
+  payment_id integer [primary key]
+  booking_id integer unique
+  method varchar
+  payment_status varchar
+  payment_date date
+  total_amount integer
+  note text
+}
+Table employees {
+  employee_id integer [primary key]
+  CCCD varchar
+  first_name varchar
+  last_name varchar
+  position varchar
+  department_id varchar
+  email varchar
+  phone varchar
+  address varchar
+  salary integer
+  start_date date
+  end_date date
+}
+
+Table statistics {
+  statistic_id integer [primary key]
+  date date unique
+  number_of_bookings integer
+  number_of_guests integer
+  revenue integer
+  occupancy_rate integer
+}
+
+Table booking_service {
+  booking_id integer 
+  service_id integer
+  date_using date unique
+}
+
+Table departments {
+  department_id varchar [primary key]
+  department_name varchar
+  description text
+  manager_id integer UNIQUE
+}
+
+Table department_service {
+  department_id varchar
+  service_id integer
+}
+
+Table top_services {
+  service_id integer
+  total_booking integer
+  period date
+}
+Ref: "customers"."customer_id" < "bookings"."customer_id"
+
+
+Ref: "bookings"."room_id" < "rooms"."room_id"
+
+
+Ref: "services"."service_id" < "booking_service"."service_id"
+
+Ref: "bookings"."booking_id" < "payments"."booking_id"
+
+
+
+Ref: "bookings"."booking_id" < "booking_service"."booking_id"
+
+
+
+
+
+
+Ref: "departments"."department_id" < "department_service"."department_id"
+
+
+Ref: "departments"."department_id" < "employees"."department_id"
+
+Ref: "services"."service_id" < "department_service"."service_id"
+
+
+
+Ref: "employees"."employee_id" < "departments"."manager_id"
+
+Ref: "services"."service_id" < "top_services"."service_id"
